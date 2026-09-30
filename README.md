@@ -4,7 +4,11 @@ A prototype that checks an alcohol label image against its application data and
 tells a compliance agent, field by field, what matches, what doesn't, and what
 they should look at themselves.
 
-**Deployed URL:** not deployed yet (runs locally; see below).
+**Deployed URL:** https://ttp.brandonjhill.com/
+
+The deployed copy is self-hosted: the Docker image from this repo runs on my own
+server, behind a reverse proxy, with DNS through Cloudflare. Sample labels take
+about 0.6–1.3 seconds each there. See [Deployment](#deployment).
 
 ## What it does
 
@@ -81,13 +85,32 @@ pinning), the OCR thread count adjusts to match. Measured on the same desktop:
 2–3 seconds per label on 2 CPUs and 3–4 seconds on 1. Set `OCR_THREADS` to
 override it.
 
+## Deployment
+
+The prototype at https://ttp.brandonjhill.com/ is self-hosted rather than on a
+cloud platform:
+
+- **Where:** my own server, running the `bhill512/ttb-label-verifier` image
+  from Docker Hub as a single container.
+- **How it is reached:** a reverse proxy in front of the container handles
+  HTTPS, and the `ttp.brandonjhill.com` DNS record goes through Cloudflare.
+- **Why self-hosted:** the app is CPU-heavy for a free cloud tier. The free
+  instances I looked at (around 0.1 CPU and 512 MB) would take 30 seconds or
+  more per label, which misses the 5-second target the brief sets.
+- **What to expect:** no sign-in, and nothing is stored. It stays up for as
+  long as the server does; if it is unreachable, the Docker command above
+  runs the identical app locally in under a minute.
+
+Updating it means rebuilding the image, pushing it to Docker Hub and pulling
+the new image on the server. There is no automatic deployment.
+
 ## Approach
 
 The design follows what the stakeholders said in the discovery notes.
 
 | What they said | What the prototype does |
 |---|---|
-| "If we can't get results back in about 5 seconds, nobody's going to use it." | Text is read by a local OCR model on CPU. Sample labels typically take about 2 seconds each on a 2017 8-core desktop, with occasional spikes to 4–5 seconds when the machine is busy. The time taken is shown with every result. |
+| "If we can't get results back in about 5 seconds, nobody's going to use it." | Text is read by a local OCR model on CPU. Sample labels take about 0.6–1.3 seconds each on the deployed server, and typically about 2 seconds on a 2017 8-core desktop, with occasional spikes to 4–5 seconds when that machine is busy. The time taken is shown with every result. |
 | "Our network blocks outbound traffic to a lot of domains." | No cloud APIs. The OCR models ship inside the Python package and the app makes no outbound calls at run time. |
 | "'STONE'S THROW' on the label but 'Stone's Throw' in the application... it's obviously the same thing." | Text is compared ignoring capitalization, spacing, punctuation and accents, and British and American spellings count as the same word. Near misses go to "Check by eye" instead of being failed. |
 | "The warning statement... has to be exact. Word-for-word, and 'GOVERNMENT WARNING:' has to be in all caps and bold." | The warning is checked against the statutory text; the heading must be in capitals; bold is estimated from the image. |
