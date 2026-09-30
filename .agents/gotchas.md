@@ -7,7 +7,7 @@ Things that cost time once already.
 - **Spaces go missing.** RapidOCR returns "OLDTOM" and
   "KentuckyStraightBourbon". Never compare on words or whitespace; use the
   squashed form from `matching/text.py`. Regexes on raw text must allow `\s*`.
-- **Punctuation is unreliable.** Commas become full stops. Nothing fails on
+- **Punctuation is unreliable.** Commas become periods. Nothing fails on
   punctuation; warning punctuation is deliberately not checked.
 - **The 180° classifier is off** (`use_cls=False` in `ocr/rapid.py`). Turned
   on, it misjudges long lines of small print and whole lines of the warning
@@ -28,9 +28,8 @@ Things that cost time once already.
 - **Liter is last in `_UNITS`** so a bare "l" never shadows a longer unit.
 - **Spelling variants never apply to the warning.** It has one legal wording.
 
-## Repo
-
-- `.claude/` is git-ignored; `.agents/` is committed.
+- **Spelling folding works on squashed text,** so a variant can match across
+  a word boundary. Keep `SPELLING_VARIANTS` to distinctive stems.
 
 ## Known gaps
 

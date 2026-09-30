@@ -15,7 +15,7 @@ they should look at themselves.
   at once. Labels are checked one after another with a progress bar; results can
   be filtered to the problems and downloaded as a CSV.
 - **Try an example.** Eleven sample labels are bundled, covering passes, failures
-  and borderline cases, so the tool can be tried without any files to hand.
+  and borderline cases, so the tool can be tried without any files of your own.
 
 Each item gets one of four outcomes:
 
@@ -51,9 +51,10 @@ cd backend
 uv run pytest
 ```
 
-The suite covers the matching rules on their own and runs the real OCR over
-every sample label, asserting both the verdict and that it came back in under
-five seconds.
+The suite (67 tests, about 35 seconds) covers the matching rules on their own
+and runs the real OCR over every sample label, asserting both the verdict and
+that it came back in under five seconds. The front end has no automated tests;
+`npm run build` type-checks it.
 
 ### Docker
 
@@ -106,11 +107,23 @@ The design follows what the stakeholders said in the discovery notes.
      27 CFR 16.21. Up to four differing characters is treated as a possible
      misread and sent to the agent, with the affected words named; more is a
      failure. Spelling variants are not accepted here, because the statement has
-     one legal wording. The heading must be in capitals. Bold is estimated by comparing
-     the stroke thickness of the heading with the body text beside it.
+     one legal wording. The heading must be in capitals. Bold is estimated by
+     comparing the stroke thickness of the heading with the body text beside it.
 3. **Decide.** Any mismatch or missing item makes the label "Problems found";
    otherwise any "Check by eye" item makes it "Needs a closer look"; otherwise
    it passes.
+
+### Where the AI is, and isn't
+
+- **Reading the label is machine learning.** RapidOCR is an open-source,
+  pre-trained pair of neural networks: one finds the text, one recognizes the
+  characters. It was not trained or tuned for this project.
+- **Comparing is plain code.** The rules above are deterministic. The same
+  label and application always give the same answer, and every result shows
+  what was compared, so an agent can see why.
+- **There is no language model.** A vision LLM would cope better with awkward
+  labels, but it would need an outbound connection the agency's firewall is
+  likely to block, and it would make the 5-second target harder to hit.
 
 The OCR engine sits behind a small interface (`TextExtractor`), so it can be
 replaced, for example by a vision model hosted inside the agency's own Azure
@@ -135,6 +148,7 @@ backend/tests/             Unit tests and end-to-end tests over the samples
 frontend/src/              React UI (single check, batch check, result view)
 samples/                   Test labels and applications.csv
 tools/generate_samples.py  Regenerates the samples
+.agents/                   Short orientation notes for contributors and AI agents
 ```
 
 ### Batch CSV format
@@ -171,7 +185,7 @@ filename,brand_name,class_type,alcohol_content,net_contents,bottler,country_of_o
 - **OCR drops some spaces.** The "On the label" text can show words run together
   ("OLDTOM"). Matching ignores spacing, so results are unaffected, but it looks
   odd.
-- **Warning punctuation is not checked.** OCR confuses commas and full stops too
+- **Warning punctuation is not checked.** OCR confuses commas and periods too
   often to fail a label on them.
 - **Type size and placement are not checked.** Only wording, capitals and bold.
 - **Upside-down images are not handled.** The OCR's 180° detector was dropping
@@ -180,7 +194,10 @@ filename,brand_name,class_type,alcohol_content,net_contents,bottler,country_of_o
 - **The search is not layout-aware.** It confirms the brand name appears on the
   label, not that it is the most prominent text.
 - **No beverage-specific rules.** For example, the alcohol content exemptions
-  for some wines and beers are not modelled.
+  for some wines and beers are not modeled.
+- **The spelling list is fixed.** Only the variants listed in the code are
+  treated as the same word, and a spelling difference is accepted as a match,
+  not sent for review. An agency may prefer the stricter reading.
 - **Batch speed.** Labels are read one at a time at about 2–3 seconds each, so
   300 labels take roughly 10–15 minutes. The batch runs from the browser;
   closing the tab stops it.

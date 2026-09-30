@@ -10,7 +10,8 @@ are skipped. The warning is always checked.
 - Both sides are "squashed": lowercase letters and digits, accents removed.
 - Squashed value found on the label: `match`.
 - Else found after folding `SPELLING_VARIANTS` (flavour/flavor,
-  whisky/whiskey...) on both sides: `match`, with a note.
+  whisky/whiskey...) on both sides: `match`, with a note. Lenient by design;
+  ask the user before making it `review`.
 - Else RapidFuzz partial ratio of 80+ (`REVIEW_SCORE`): `review`.
 - Else `not_found`.
 - A matched span is **claimed** and cannot satisfy another field. Fields run
@@ -27,9 +28,8 @@ are skipped. The warning is always checked.
 
 ## Net contents
 
-`matching/net_contents.py`
-
-- Converts to milliliters with 1% tolerance: 750 mL matches 75 cL.
+`matching/net_contents.py`: converts to milliliters, 1% tolerance, so 750 mL
+matches 75 cL.
 
 ## Government warning
 
@@ -45,5 +45,4 @@ are skipped. The warning is always checked.
 
 ## Changing a rule
 
-Update a unit test, then confirm every row in `samples/applications.csv`
-still reaches its `expected_verdict`.
+Update a unit test, then run the suite: every sample must keep its verdict.

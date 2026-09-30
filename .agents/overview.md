@@ -14,8 +14,9 @@ trade them away without asking the user.
   path uses no cloud APIs. The OCR models ship inside a Python package.
 - **Usable by non-technical staff.** One screen, large type, plain words, no
   jargon in the UI or in error messages.
-- **Judgment, not rigid matching.** "STONE'S THROW" equals "Stone's Throw".
-  Uncertain cases go to the agent as "Check by eye", not as failures.
+- **Judgment, not rigid matching.** "STONE'S THROW" equals "Stone's Throw",
+  and British and American spellings are the same word. Uncertain cases go to
+  the agent as "Check by eye", not as failures.
 - **The government warning is strict.** Word-for-word, heading in capitals and bold.
 - **Batch.** Importers submit 200–300 labels at once.
 - **Nothing stored.** Images are processed in memory and discarded.
@@ -29,7 +30,7 @@ trade them away without asking the user.
 ## Status
 
 - Runs locally and as a Docker container; both verified.
-- Not deployed yet. A deployed URL is a required deliverable.
+- Not pushed to GitHub and not deployed yet. Both are required deliverables.
 - Tested only on the synthetic labels in `samples/`, never on real labels.
 
 ## Deliverables
