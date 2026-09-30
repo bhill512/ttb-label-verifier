@@ -1,11 +1,9 @@
 # Matching rules
 
-Statuses: `match`, `review`, `mismatch`, `not_found`. Blank application fields
-are skipped. The warning is always checked.
+All in `backend/app/matching/`. Statuses: `match`, `review`, `mismatch`,
+`not_found`. Blank application fields are skipped; the warning never is.
 
 ## Text fields: brand, class/type, bottler, country
-
-`matching/text.py`, `text_fields.py`
 
 - Both sides are "squashed": lowercase letters and digits, accents removed.
 - Squashed value found on the label: `match`.
@@ -33,7 +31,7 @@ matches 75 cL.
 
 ## Government warning
 
-`matching/warning.py`, `bold.py`. Up to three results.
+Up to three results.
 
 - **Wording:** Levenshtein distance from the squashed 27 CFR 16.21 text.
   0 is `match`; 1–4 is `review`; more is `mismatch`. No warning at all is

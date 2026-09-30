@@ -14,7 +14,6 @@ Things that cost time once already.
   vanish. Upside-down images are therefore unsupported.
 - **Timing is noisy.** About 2 seconds typically, spikes to 4–5 on a busy
   machine. The first call is slow, so `main.py` warms the model up.
-- **The extractor is locked.** Parallel requests queue; they do not speed up.
 
 ## Matching
 
