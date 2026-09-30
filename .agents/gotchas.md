@@ -29,7 +29,6 @@ Things that cost time once already.
 
 ## Repo
 
-- The shell's working directory persists between commands; use absolute paths.
 - `.claude/` is git-ignored; `.agents/` is committed.
 - pytest prints a harmless Starlette/httpx deprecation warning.
 

@@ -1,6 +1,6 @@
 # Architecture
 
-One FastAPI process serves the API, the sample files and the built React UI.
+One FastAPI process serves the API, samples and the built React UI.
 
 ## Layout
 
@@ -22,8 +22,7 @@ tools/                   generate_samples.py
   (required), `class_type`, `alcohol_content`, `net_contents`, `bottler`,
   `country_of_origin`.
 - `GET /api/samples`: the manifest, for the "Try an example" dropdown.
-- `GET /api/health`
-- `/samples/*` and `/` are static mounts.
+- `GET /api/health`; `/samples/*` and `/` are static mounts.
 
 ## Request flow
 
