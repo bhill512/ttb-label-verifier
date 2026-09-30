@@ -1,0 +1,11 @@
+filename,brand_name,class_type,alcohol_content,net_contents,bottler,country_of_origin,expected_verdict,description
+old_tom_bourbon.png,Old Tom Distillery,Kentucky Straight Bourbon Whiskey,45% Alc./Vol. (90 Proof),750 mL,"Old Tom Distillery, Bardstown, Kentucky",,pass,"Clean label, everything matches"
+stones_throw_gin.png,Stone's Throw,London Dry Gin,47%,75 cL,"Stone's Throw Spirits, Portland, Oregon",,pass,Brand differs only in capitalisation; net contents in different units
+old_tom_wrong_abv.png,Old Tom Distillery,Kentucky Straight Bourbon Whiskey,45% Alc./Vol. (90 Proof),750 mL,"Old Tom Distillery, Bardstown, Kentucky",,fail,Label shows 40% but the application says 45%
+silver_creek_titlecase_warning.png,Silver Creek,Vodka,40% Alc./Vol. (80 Proof),1 L,"Silver Creek Spirits, Boise, Idaho",,fail,Warning heading is in title case instead of capitals
+harbor_light_missing_warning.png,Harbor Light,India Pale Ale,6.8%,12 fl oz,"Harbor Light Brewing Co., Portland, Maine",,fail,No government warning on the label
+red_mesa_altered_warning.png,Red Mesa,Tequila Reposado,40% Alc./Vol. (80 Proof),750 mL,"Red Mesa Imports, San Antonio, Texas",Mexico,fail,Warning wording has been changed and shortened
+chateau_lumiere_wine.png,Chateau Lumiere,Red Bordeaux Wine,13.5%,750 mL,"Lumiere Wine Imports, New York, New York",France,pass,Imported wine with country of origin
+old_tom_photo.jpg,Old Tom Distillery,Kentucky Straight Bourbon Whiskey,45% Alc./Vol. (90 Proof),750 mL,"Old Tom Distillery, Bardstown, Kentucky",,pass,Same label photographed at an angle with glare and uneven light
+north_fork_plain_warning.png,North Fork,Straight Rye Whiskey,50% Alc./Vol. (100 Proof),750 mL,"North Fork Distilling, Bozeman, Montana",,review,Warning heading is in capitals but not bold
+blue_herron_brand_typo.png,Blue Heron,Small Batch Rum,42% Alc./Vol. (84 Proof),750 mL,"Blue Heron Rum Company, Charleston, South Carolina",,review,Brand on the label is spelled slightly differently from the application
