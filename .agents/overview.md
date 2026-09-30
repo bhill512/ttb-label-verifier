@@ -30,10 +30,7 @@ trade them away without asking the user.
 ## Status
 
 - Runs locally and as a Docker container; both verified.
-- Not pushed to GitHub and not deployed yet. Both are required deliverables.
+- Code: GitHub `bhill512/ttb-label-verifier`. Image: same name on Docker Hub.
+- The user will self-host it. A deployed URL is a required deliverable and the
+  README's "Deployed URL" line is still to be filled in.
 - Tested only on the synthetic labels in `samples/`, never on real labels.
-
-## Deliverables
-
-Public GitHub repo (`bhill512/ttb-label-verifier`), a README covering setup,
-approach, assumptions and limitations, and a deployed URL.

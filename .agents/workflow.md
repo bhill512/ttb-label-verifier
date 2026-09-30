@@ -30,6 +30,8 @@ docker build -t ttb-label-verifier .
 docker run -p 8000:8000 ttb-label-verifier
 ```
 
+Published as `bhill512/ttb-label-verifier` on Docker Hub (pushed by hand).
+
 ## Samples
 
 ```bash

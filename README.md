@@ -51,7 +51,7 @@ cd backend
 uv run pytest
 ```
 
-The suite (67 tests, about 35 seconds) covers the matching rules on their own
+The suite (75 tests, about 35 seconds) covers the matching rules on their own
 and runs the real OCR over every sample label, asserting both the verdict and
 that it came back in under five seconds. The front end has no automated tests;
 `npm run build` type-checks it.
@@ -69,6 +69,17 @@ docker run -p 8000:8000 ttb-label-verifier
 Then open http://localhost:8000. The image is about 800 MB and the running
 container uses roughly 350 MB of memory. All eleven sample labels reach their
 expected verdict when checked through the container.
+
+A prebuilt image is on Docker Hub, so a server only needs:
+
+```bash
+docker run -d -p 8000:8000 --restart unless-stopped bhill512/ttb-label-verifier
+```
+
+If the container is limited to fewer CPUs than the host has (`--cpus`, CPU
+pinning), the OCR thread count adjusts to match. Measured on the same desktop:
+2–3 seconds per label on 2 CPUs and 3–4 seconds on 1. Set `OCR_THREADS` to
+override it.
 
 ## Approach
 
