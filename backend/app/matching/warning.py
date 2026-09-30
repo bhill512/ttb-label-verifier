@@ -106,7 +106,7 @@ def _check_capitals(heading_text: str) -> FieldResult:
         key="warning_capitals",
         title="Warning heading in capitals",
         status=status,
-        expected=HEADING,
+        expected=HEADING.rstrip(":"),
         found=heading_text,
         note=note,
     )
