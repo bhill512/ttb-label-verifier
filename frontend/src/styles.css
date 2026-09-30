@@ -16,7 +16,7 @@
   --amber-bg: #fff1d2;
   --red: #b50909;
   --red-bg: #fdecea;
-  --grey-bg: #e6e6e6;
+  --gray-bg: #e6e6e6;
 }
 
 * {
@@ -317,7 +317,7 @@ a:focus-visible,
   font-weight: 700;
 }
 
-/* The symbol sits on a disc of the verdict colour, so it is drawn in white. */
+/* The symbol sits on a disc of the verdict color, so it is drawn in white. */
 .banner-symbol span {
   color: #fff;
 }
@@ -339,7 +339,7 @@ a:focus-visible,
 
 .verdict-unreadable {
   color: #3d4551;
-  background: var(--grey-bg);
+  background: var(--gray-bg);
 }
 
 .badge {

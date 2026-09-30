@@ -98,7 +98,7 @@ def _check_capitals(heading_text: str) -> FieldResult:
         status, note = Status.MATCH, "Heading is in capital letters."
     elif lowercase <= MISREAD_CAPITALS:
         status = Status.REVIEW
-        note = "Heading looks mostly capitalised. Please check it is all capital letters."
+        note = "Heading looks mostly capitalized. Please check it is all capital letters."
     else:
         status = Status.MISMATCH
         note = 'Heading must be in capital letters: "GOVERNMENT WARNING:".'
@@ -113,7 +113,11 @@ def _check_capitals(heading_text: str) -> FieldResult:
 
 
 def check_warning(label: LabelText) -> list[FieldResult]:
-    """Check the warning's wording and heading capitalisation, and claim its text."""
+    """Check the warning's wording and heading capitalization, and claim its text.
+
+    The wording is compared on the plain squashed text: spelling variants are
+    never folded here, because the statement has exactly one legal wording.
+    """
     heading = label.find("GOVERNMENT WARNING", min_score=_HEADING_SCORE)
     if heading is None:
         return [

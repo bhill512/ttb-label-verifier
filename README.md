@@ -14,7 +14,7 @@ they should look at themselves.
 - **Check many labels.** Choose a CSV of applications and all the label images
   at once. Labels are checked one after another with a progress bar; results can
   be filtered to the problems and downloaded as a CSV.
-- **Try an example.** Ten sample labels are bundled, covering passes, failures
+- **Try an example.** Eleven sample labels are bundled, covering passes, failures
   and borderline cases, so the tool can be tried without any files to hand.
 
 Each item gets one of four outcomes:
@@ -66,7 +66,7 @@ docker run -p 8000:8000 ttb-label-verifier
 ```
 
 Then open http://localhost:8000. The image is about 800 MB and the running
-container uses roughly 350 MB of memory. All ten sample labels reach their
+container uses roughly 350 MB of memory. All eleven sample labels reach their
 expected verdict when checked through the container.
 
 ## Approach
@@ -77,9 +77,9 @@ The design follows what the stakeholders said in the discovery notes.
 |---|---|
 | "If we can't get results back in about 5 seconds, nobody's going to use it." | Text is read by a local OCR model on CPU. Sample labels typically take about 2 seconds each on a 2017 8-core desktop, with occasional spikes to 4–5 seconds when the machine is busy. The time taken is shown with every result. |
 | "Our network blocks outbound traffic to a lot of domains." | No cloud APIs. The OCR models ship inside the Python package and the app makes no outbound calls at run time. |
-| "'STONE'S THROW' on the label but 'Stone's Throw' in the application... it's obviously the same thing." | Text is compared ignoring capitalisation, spacing, punctuation and accents. Near misses go to "Check by eye" instead of being failed. |
+| "'STONE'S THROW' on the label but 'Stone's Throw' in the application... it's obviously the same thing." | Text is compared ignoring capitalization, spacing, punctuation and accents, and British and American spellings count as the same word. Near misses go to "Check by eye" instead of being failed. |
 | "The warning statement... has to be exact. Word-for-word, and 'GOVERNMENT WARNING:' has to be in all caps and bold." | The warning is checked against the statutory text; the heading must be in capitals; bold is estimated from the image. |
-| "Something my mother could figure out." | One screen, numbered steps, large type, one main button. Results use words and symbols as well as colour, and problems are listed first. |
+| "Something my mother could figure out." | One screen, numbered steps, large type, one main button. Results use words and symbols as well as color, and problems are listed first. |
 | "Big importers dump 200, 300 label applications on us at once." | Batch mode: a CSV plus the images, with progress, filters and a CSV export. |
 | "Images that aren't perfectly shot." | Photos are auto-rotated from camera metadata and tilted text is handled. A label that can't be read is reported as "Could not read the label", not as a failure. |
 | "We're not storing anything sensitive." | Nothing is stored. Images are processed in memory and discarded. |
@@ -93,8 +93,10 @@ The design follows what the stakeholders said in the discovery notes.
    - *Brand, class/type, bottler, country* — searched for anywhere on the label,
      ignoring case, spacing and punctuation. An identical match passes; a close
      one (80% similar or better) goes to the agent. Text that satisfies one field
-     can't satisfy another, so a misspelt brand doesn't pass just because the
-     right name appears in the bottler's address.
+     can't satisfy another, so a misspelled brand doesn't pass just because the
+     right name appears in the bottler's address. A list of known spelling
+     variants (flavour/flavor, whisky/whiskey, draught/draft and so on) is
+     treated as the same word in either direction, and the result says so.
    - *Alcohol content* — the percentage is parsed from both sides and must be
      equal. If a proof is shown it must agree with the application and be twice
      the percentage.
@@ -103,7 +105,8 @@ The design follows what the stakeholders said in the discovery notes.
    - *Government warning* — compared character by character with the text in
      27 CFR 16.21. Up to four differing characters is treated as a possible
      misread and sent to the agent, with the affected words named; more is a
-     failure. The heading must be in capitals. Bold is estimated by comparing
+     failure. Spelling variants are not accepted here, because the statement has
+     one legal wording. The heading must be in capitals. Bold is estimated by comparing
      the stroke thickness of the heading with the body text beside it.
 3. **Decide.** Any mismatch or missing item makes the label "Problems found";
    otherwise any "Check by eye" item makes it "Needs a closer look"; otherwise
@@ -150,9 +153,13 @@ filename,brand_name,class_type,alcohol_content,net_contents,bottler,country_of_o
 - A field left blank in the application is not checked. The government warning
   is always checked.
 - The warning may be printed entirely in capitals; only the heading's
-  capitalisation is enforced.
+  capitalization is enforced.
 - "Matches" for text fields means the same letters and digits in the same order.
-  Differences in capitalisation, spacing and punctuation are noted but accepted.
+  Differences in capitalization, spacing and punctuation are noted but accepted.
+- A label and its application may use different spellings of the same word
+  (British or American, or "whisky" and "whiskey"). This is accepted as a match
+  and noted. The list of variants is in `backend/app/matching/text.py`; a word
+  not on it goes to "Check by eye".
 - Bold can't be determined with certainty from an image, so a heading that
   doesn't look bold is sent to the agent instead of being rejected.
 

@@ -27,11 +27,12 @@ def check_text(label: LabelText, key: str, title: str, expected: str) -> FieldRe
             note="Close to the application but not the same. Please compare.",
         )
 
-    note = (
-        "Matches the application exactly."
-        if hit.text == expected
-        else "Same wording as the application. Only capitalisation, spacing or punctuation differs."
-    )
+    if hit.spelling_differs:
+        note = "Same wording as the application, in a different spelling (British or American)."
+    elif hit.text == expected:
+        note = "Matches the application exactly."
+    else:
+        note = "Same wording as the application. Only capitalization, spacing or punctuation differs."
     return FieldResult(
         key=key, title=title, status=Status.MATCH, expected=expected, found=hit.text, note=note
     )

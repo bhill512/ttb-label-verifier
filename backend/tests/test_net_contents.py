@@ -5,21 +5,22 @@ from app.schemas import Status
 
 
 @pytest.mark.parametrize(
-    ("text", "millilitres"),
+    ("text", "milliliters"),
     [
         ("750 mL", 750),
         ("750ML", 750),
         ("75 cL", 750),
         ("1 L", 1000),
         ("1.75 Liters", 1750),
+        ("1 Litre", 1000),
         ("0,7 l", 700),
         ("12 FL OZ", 354.882),
         ("12 fl. oz.", 354.882),
         ("1 Pint", 473.176),
     ],
 )
-def test_units_convert_to_millilitres(text, millilitres):
-    assert parse_quantities(text)[0].millilitres == pytest.approx(millilitres)
+def test_units_convert_to_milliliters(text, milliliters):
+    assert parse_quantities(text)[0].milliliters == pytest.approx(milliliters)
 
 
 def test_numbers_without_a_volume_unit_are_not_quantities():

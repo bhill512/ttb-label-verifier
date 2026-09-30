@@ -5,7 +5,7 @@ from ..schemas import FieldResult, Status
 
 KEY, TITLE = "net_contents", "Net contents"
 
-# Unit pattern -> millilitres. Litre comes last so "l" never shadows a longer unit.
+# Unit pattern -> milliliters. Liter comes last so "l" never shadows a longer unit.
 _UNITS = [
     (r"ml|millilit(?:er|re)s?", 1.0),
     (r"cl|centilit(?:er|re)s?", 10.0),
@@ -27,7 +27,7 @@ _TOLERANCE = 0.01
 @dataclass(frozen=True)
 class Quantity:
     text: str
-    millilitres: float
+    milliliters: float
 
 
 def parse_quantities(text: str) -> list[Quantity]:
@@ -61,7 +61,7 @@ def check_net_contents(label_text: str, expected: str) -> FieldResult:
         return _result(Status.NOT_FOUND, expected, "No volume found on the label.")
 
     for quantity in on_label:
-        if abs(quantity.millilitres - target.millilitres) <= _TOLERANCE * target.millilitres:
+        if abs(quantity.milliliters - target.milliliters) <= _TOLERANCE * target.milliliters:
             same_units = quantity.text.replace(" ", "").lower() == target.text.replace(" ", "").lower()
             note = "Net contents match." if same_units else "Same volume in different units."
             return _result(Status.MATCH, expected, note, quantity.text)

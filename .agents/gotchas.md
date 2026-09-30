@@ -25,12 +25,12 @@ Things that cost time once already.
   count as alcohol content.
 - **Bold needs body text on the heading's line.** A heading alone on its line
   gives no ratio and the result is `review`.
-- **Litre is last in `_UNITS`** so a bare "l" never shadows a longer unit.
+- **Liter is last in `_UNITS`** so a bare "l" never shadows a longer unit.
+- **Spelling variants never apply to the warning.** It has one legal wording.
 
 ## Repo
 
 - `.claude/` is git-ignored; `.agents/` is committed.
-- pytest prints a harmless Starlette/httpx deprecation warning.
 
 ## Known gaps
 

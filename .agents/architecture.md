@@ -12,7 +12,7 @@ backend/app/ocr/         Image loading, TextExtractor, RapidOCR wrapper
 backend/app/matching/    One module per kind of check
 backend/tests/           Unit tests per rule, end-to-end over samples
 frontend/src/            SingleCheck, BatchCheck, ResultView, api, types
-samples/                 10 labels + applications.csv (the golden set)
+samples/                 Labels + applications.csv (the golden set)
 tools/                   generate_samples.py
 ```
 
@@ -39,4 +39,4 @@ tools/                   generate_samples.py
 - Batch has no server endpoint. The browser parses the CSV and calls
   `/api/verify` per row, two at a time.
 - `frontend/src/types.ts` mirrors `schemas.py` by hand. Change both together.
-- To swap OCR engines, implement `TextExtractor` (`ocr/base.py`).
+- To swap OCR engines, implement `TextExtractor`.

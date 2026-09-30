@@ -51,6 +51,12 @@ def test_single_character_difference_goes_to_review():
     assert "machinery" in result.note
 
 
+def test_spelling_variants_are_not_tolerated_in_the_warning():
+    # Other fields accept British or American spelling; the warning has one legal wording.
+    result = check(STATEMENT.replace("alcoholic beverages impairs", "alcoholic draughts impairs"))
+    assert result["warning_wording"].status is Status.MISMATCH
+
+
 def test_missing_warning():
     results = check("HARBOR LIGHT\nIndia Pale Ale\n12 FL OZ")
     assert list(results) == ["warning_wording"]

@@ -25,7 +25,7 @@ _MIN_INK_PIXELS = 50
 
 
 def _straighten(image: np.ndarray, line: TextLine) -> np.ndarray:
-    """Cut a text line out of the image as an upright greyscale strip."""
+    """Cut a text line out of the image as an upright grayscale strip."""
     top_left, top_right, _, bottom_left = line.box
     width = math.dist(top_left, top_right)
     height = math.dist(top_left, bottom_left)
@@ -37,12 +37,12 @@ def _straighten(image: np.ndarray, line: TextLine) -> np.ndarray:
 
 
 def _stroke_width(ink: np.ndarray) -> float | None:
-    """Typical stroke thickness: twice the distance from a stroke's centre to its edge."""
+    """Typical stroke thickness: twice the distance from a stroke's center to its edge."""
     if ink.sum() < _MIN_INK_PIXELS:
         return None
     distance = cv2.distanceTransform(ink.astype(np.uint8), cv2.DIST_L2, 5)
-    centres = ink & (distance >= cv2.dilate(distance, np.ones((3, 3), np.uint8)))
-    return 2 * float(np.median(distance[centres]))
+    centers = ink & (distance >= cv2.dilate(distance, np.ones((3, 3), np.uint8)))
+    return 2 * float(np.median(distance[centers]))
 
 
 def heading_stroke_ratio(image: np.ndarray, lines: Sequence[TextLine]) -> float | None:

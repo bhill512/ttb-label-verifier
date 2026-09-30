@@ -30,7 +30,7 @@ trade them away without asking the user.
 
 - Runs locally and as a Docker container; both verified.
 - Not deployed yet. A deployed URL is a required deliverable.
-- Tested only on the ten synthetic labels in `samples/`, never on real labels.
+- Tested only on the synthetic labels in `samples/`, never on real labels.
 
 ## Deliverables
 

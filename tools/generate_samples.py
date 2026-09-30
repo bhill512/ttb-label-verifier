@@ -90,7 +90,7 @@ def wrap(draw: ImageDraw.ImageDraw, text: str, fnt, max_width: int) -> list[str]
 
 
 def draw_centered(draw, text: str, fnt, y: int, ink, line_gap: int = 12) -> int:
-    """Draw wrapped, centred text starting at y and return the y below it."""
+    """Draw wrapped, centered text starting at y and return the y below it."""
     for line in wrap(draw, text, fnt, WIDTH - 2 * MARGIN - 40):
         width = draw.textlength(line, font=fnt)
         draw.text(((WIDTH - width) / 2, y), line, font=fnt, fill=ink)
@@ -215,7 +215,7 @@ SAMPLES = [
             country_of_origin="",
         ),
         "pass",
-        "Brand differs only in capitalisation; net contents in different units",
+        "Brand differs only in capitalization; net contents in different units",
     ),
     Sample(
         "old_tom_wrong_abv.png",
@@ -374,6 +374,29 @@ SAMPLES = [
         ),
         "review",
         "Brand on the label is spelled slightly differently from the application",
+    ),
+    Sample(
+        "glen_cairn_british_spelling.png",
+        Label(
+            brand="GLEN CAIRN",
+            class_type="Honey Flavoured Whisky Liqueur",
+            alcohol="35% Alc./Vol. (70 Proof)",
+            net_contents="700 mL",
+            bottler="Imported by Glen Cairn Imports, Boston, Massachusetts",
+            origin="PRODUCT OF SCOTLAND",
+            paper=(236, 232, 214),
+            ink=(28, 52, 40),
+        ),
+        dict(
+            brand_name="Glen Cairn",
+            class_type="Honey Flavored Whiskey Liqueur",
+            alcohol_content="35% Alc./Vol. (70 Proof)",
+            net_contents="700 mL",
+            bottler="Glen Cairn Imports, Boston, Massachusetts",
+            country_of_origin="Scotland",
+        ),
+        "pass",
+        "Label uses British spelling; the application uses American",
     ),
 ]
 

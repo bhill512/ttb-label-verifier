@@ -1,7 +1,7 @@
 import type { Status, Verdict, VerificationResult } from "./types";
 import { STATUS_TEXT, VERDICT_TEXT } from "./types";
 
-// Every status has a symbol and words as well as a colour, so nothing relies on colour alone.
+// Every status has a symbol and words as well as a color, so nothing relies on color alone.
 const STATUS_SYMBOL: Record<Status, string> = {
   match: "✓",
   review: "!",

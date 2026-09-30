@@ -1,3 +1,5 @@
+import pytest
+
 from app.matching.text import LabelText
 from app.matching.text_fields import check_text
 from app.schemas import Status
@@ -7,11 +9,32 @@ def check(lines: list[str], expected: str):
     return check_text(LabelText(lines), "brand_name", "Brand name", expected)
 
 
-def test_capitalisation_difference_is_a_match():
+def test_capitalization_difference_is_a_match():
     result = check(["STONE'S THROW", "London Dry Gin"], "Stone's Throw")
     assert result.status is Status.MATCH
     assert result.found == "STONE'S THROW"
-    assert "capitalisation" in result.note
+    assert "capitalization" in result.note
+
+
+@pytest.mark.parametrize(
+    ("on_label", "in_application"),
+    [
+        ("Honey Flavoured Whisky Liqueur", "Honey Flavored Whiskey Liqueur"),
+        ("Honey Flavored Whiskey Liqueur", "Honey Flavoured Whisky Liqueur"),
+        ("GREY HARBOUR", "Gray Harbor"),
+        ("DRAUGHT CIDER", "Draft Cider"),
+        ("HoneyFlavouredWhisky Liqueur", "Honey Flavored Whiskey Liqueur"),  # OCR spacing
+    ],
+)
+def test_british_and_american_spellings_are_the_same_word(on_label, in_application):
+    result = check(["GLEN CAIRN", on_label, "700 mL"], in_application)
+    assert result.status is Status.MATCH
+    assert result.found == on_label
+    assert "spelling" in result.note
+
+
+def test_spelling_variants_do_not_excuse_a_different_word():
+    assert check(["Honey Flavoured Rum"], "Honey Flavored Whiskey").status is not Status.MATCH
 
 
 def test_identical_text_is_reported_as_exact():

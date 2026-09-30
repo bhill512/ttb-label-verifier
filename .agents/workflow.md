@@ -43,7 +43,8 @@ differ slightly between Windows and Linux.
 
 ## Conventions
 
-- British spelling in user-facing text ("capitalisation", "millilitres").
+- American spelling in everything we write: UI text, docs, comments, names.
+  (Labels themselves may use either; the matcher accepts both.)
 - UI and error text is plain English for non-technical users.
 - Python: type hints, small modules, comments only where the reason is not
   obvious. Thresholds are named constants at the top of each module.
