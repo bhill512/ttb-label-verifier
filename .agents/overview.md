@@ -31,6 +31,6 @@ trade them away without asking the user.
 
 - Runs locally and as a Docker container; both verified.
 - Code: GitHub `bhill512/ttb-label-verifier`. Image: same name on Docker Hub.
-- Deployed at https://ttp.brandonjhill.com/ : self-hosted on the user's
+- Deployed at https://ttb.brandonjhill.com/ : self-hosted on the user's
   server behind a reverse proxy. Updates are manual (rebuild, push, pull).
 - Tested only on the synthetic labels in `samples/`, never on real labels.

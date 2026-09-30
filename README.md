@@ -4,7 +4,7 @@ A prototype that checks an alcohol label image against its application data and
 tells a compliance agent, field by field, what matches, what doesn't, and what
 they should look at themselves.
 
-**Deployed URL:** https://ttp.brandonjhill.com/
+**Deployed URL:** https://ttb.brandonjhill.com/
 
 The deployed copy is self-hosted: the Docker image from this repo runs on my own
 server, behind a reverse proxy, with DNS through Cloudflare. Sample labels take
@@ -87,13 +87,13 @@ override it.
 
 ## Deployment
 
-The prototype at https://ttp.brandonjhill.com/ is self-hosted rather than on a
+The prototype at https://ttb.brandonjhill.com/ is self-hosted rather than on a
 cloud platform:
 
 - **Where:** my own server, running the `bhill512/ttb-label-verifier` image
   from Docker Hub as a single container.
 - **How it is reached:** a reverse proxy in front of the container handles
-  HTTPS, and the `ttp.brandonjhill.com` DNS record goes through Cloudflare.
+  HTTPS, and the `ttb.brandonjhill.com` DNS record goes through Cloudflare.
 - **Why self-hosted:** the app is CPU-heavy for a free cloud tier. The free
   instances I looked at (around 0.1 CPU and 512 MB) would take 30 seconds or
   more per label, which misses the 5-second target the brief sets.
