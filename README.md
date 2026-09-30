@@ -57,12 +57,17 @@ five seconds.
 
 ### Docker
 
-A `Dockerfile` is included for deployment. It has not been built and tested yet.
+The whole app (API and UI) also runs as a single container, with nothing else
+to install:
 
 ```bash
 docker build -t ttb-label-verifier .
 docker run -p 8000:8000 ttb-label-verifier
 ```
+
+Then open http://localhost:8000. The image is about 800 MB and the running
+container uses roughly 350 MB of memory. All ten sample labels reach their
+expected verdict when checked through the container.
 
 ## Approach
 
@@ -70,7 +75,7 @@ The design follows what the stakeholders said in the discovery notes.
 
 | What they said | What the prototype does |
 |---|---|
-| "If we can't get results back in about 5 seconds, nobody's going to use it." | Text is read by a local OCR model on CPU. Sample labels take 1–3 seconds each on a 2017 8-core desktop. The time taken is shown with every result. |
+| "If we can't get results back in about 5 seconds, nobody's going to use it." | Text is read by a local OCR model on CPU. Sample labels typically take about 2 seconds each on a 2017 8-core desktop, with occasional spikes to 4–5 seconds when the machine is busy. The time taken is shown with every result. |
 | "Our network blocks outbound traffic to a lot of domains." | No cloud APIs. The OCR models ship inside the Python package and the app makes no outbound calls at run time. |
 | "'STONE'S THROW' on the label but 'Stone's Throw' in the application... it's obviously the same thing." | Text is compared ignoring capitalisation, spacing, punctuation and accents. Near misses go to "Check by eye" instead of being failed. |
 | "The warning statement... has to be exact. Word-for-word, and 'GOVERNMENT WARNING:' has to be in all caps and bold." | The warning is checked against the statutory text; the heading must be in capitals; bold is estimated from the image. |
